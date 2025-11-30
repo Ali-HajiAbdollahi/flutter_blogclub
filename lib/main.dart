@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blogclub/carousel/carousel_slider.dart';
 import 'package:flutter_blogclub/data.dart';
@@ -8,7 +9,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  static const defaultFontFamily = "Avenir";
+  static const defualtFontFamilly = "Avenir";
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -19,29 +20,51 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            textStyle: WidgetStatePropertyAll(
+              const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                fontFamily: defualtFontFamilly,
+              ),
+            ),
+          ),
+        ),
         textTheme: TextTheme(
           titleMedium: TextStyle(
-            fontFamily: defaultFontFamily,
+            fontFamily: defualtFontFamilly,
             color: secondaryTextColor,
             fontSize: 18,
           ),
           titleLarge: TextStyle(
             color: primaryTextColor,
-            fontFamily: defaultFontFamily,
+            fontFamily: defualtFontFamilly,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
+          titleSmall: TextStyle(
+            color: primaryTextColor,
+            fontFamily: defualtFontFamilly,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
           headlineLarge: TextStyle(
-            fontFamily: defaultFontFamily,
+            fontFamily: defualtFontFamilly,
             fontWeight: FontWeight.bold,
             color: primaryTextColor,
             fontSize: 24,
           ),
           bodyMedium: TextStyle(
-            fontFamily: defaultFontFamily,
+            fontFamily: defualtFontFamilly,
             color: secondaryTextColor,
             fontSize: 12,
+          ),
+          headlineSmall: TextStyle(
+            fontFamily: defualtFontFamilly,
+            fontSize: 20,
+            color: primaryTextColor,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -59,32 +82,176 @@ class HomeScreen extends StatelessWidget {
     final stories = AppDatabase.stories;
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Hi, Jonothon!", style: themeData.titleMedium),
+                    Image.asset(
+                      "assets/img/icons/notification.png",
+                      width: 32,
+                      height: 32,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
+                child: Text("Explore today’s", style: themeData.headlineLarge),
+              ),
+              _StoryList(stories: stories, themeData: themeData),
+              SizedBox(height: 16),
+              _CategoryList(),
+              _PostList(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PostList extends StatelessWidget {
+  final posts = AppDatabase.posts;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Latest News",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text("More", style: TextStyle(color: Color(0xff376AED))),
+              ),
+            ],
+          ),
+        ),
+        ListView.builder(
+          physics: ClampingScrollPhysics(),
+          itemCount: posts.length,
+          itemExtent: 141,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            final post = posts[index];
+            return _Post(post: post);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _Post extends StatelessWidget {
+  const _Post({required this.post});
+
+  final PostData post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(32, 8, 32, 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [BoxShadow(blurRadius: 10, color: Color(0x1a5282FF))],
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset("assets/img/posts/small/${post.imageFileName}"),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Hi, Jonothon!", style: themeData.titleMedium),
-                  Image.asset(
-                    "assets/img/icons/notification.png",
-                    width: 32,
-                    height: 32,
+                  Text(
+                    post.caption,
+                    style: TextStyle(
+                      fontFamily: MyApp.defualtFontFamilly,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff376AED),
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    post.title,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Icon(
+                        CupertinoIcons.hand_thumbsup,
+                        size: 16,
+                        color: Theme.of(context).textTheme.bodyMedium!.color,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        post.likes,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      SizedBox(width: 16),
+                      Icon(
+                        CupertinoIcons.clock,
+                        size: 16,
+                        color: Theme.of(context).textTheme.bodyMedium!.color,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        post.time,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          child:
+                              post.isBookmarked
+                                  ? Icon(
+                                    CupertinoIcons.bookmark_fill,
+                                    size: 16,
+                                    color:
+                                        Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium!.color,
+                                  )
+                                  : Icon(
+                                    CupertinoIcons.bookmark,
+                                    size: 16,
+                                    color:
+                                        Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium!.color,
+                                  ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
-              child: Text("Explore today’s", style: themeData.headlineLarge),
-            ),
-            _StoryList(stories: stories, themeData: themeData),
-            SizedBox(height: 16),
-            _CategoryList(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -99,9 +266,10 @@ class _CategoryList extends StatelessWidget {
       itemBuilder: (context, index, realIndex) {
         final category = categories[index];
         return _CategoryItem(
-          left: realIndex==0?32:8,
-          right: realIndex==categories.length-1?32:8,
-          category: category);
+          left: realIndex == 0 ? 32 : 8,
+          right: realIndex == categories.length - 1 ? 32 : 8,
+          category: category,
+        );
       },
       options: CarouselOptions(
         scrollDirection: Axis.horizontal,
@@ -120,7 +288,11 @@ class _CategoryList extends StatelessWidget {
 }
 
 class _CategoryItem extends StatelessWidget {
-  const _CategoryItem({required this.category, required this.left, required this.right});
+  const _CategoryItem({
+    required this.category,
+    required this.left,
+    required this.right,
+  });
 
   final Category category;
   final double left;
@@ -138,7 +310,9 @@ class _CategoryItem extends StatelessWidget {
             right: 65,
             child: Container(
               decoration: BoxDecoration(
-                boxShadow: [BoxShadow(blurRadius: 20, color: Color(0xff0D253C))],
+                boxShadow: [
+                  BoxShadow(blurRadius: 20, color: Color(0xff0D253C)),
+                ],
               ),
             ),
           ),
@@ -216,7 +390,7 @@ class _Story extends StatelessWidget {
         Stack(
           children: [
             Column(
-              children: [story.isViewed ? _viewedStory() : _unviewedStory()],
+              children: [story.isViewed ? _viewedStory() : _unViewedStory()],
             ),
             Positioned(
               bottom: 0,
@@ -235,7 +409,7 @@ class _Story extends StatelessWidget {
     );
   }
 
-  Container _unviewedStory() {
+  Container _unViewedStory() {
     return Container(
       margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
       width: 68,

@@ -1,3 +1,5 @@
+library;
+
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
@@ -33,13 +35,6 @@ class CarouselSlider extends StatefulWidget {
 
   final int? itemCount;
 
-  static CarouselSliderControllerImpl _createController(
-      CarouselSliderController? carouselController) {
-    return carouselController != null
-        ? carouselController as CarouselSliderControllerImpl
-        : CarouselSliderController() as CarouselSliderControllerImpl;
-  }
-
   CarouselSlider(
       {required this.items,
       required this.options,
@@ -48,7 +43,9 @@ class CarouselSlider extends StatefulWidget {
       super.key})
       : itemBuilder = null,
         itemCount = items != null ? items.length : 0,
-        _carouselController = _createController(carouselController);
+        _carouselController = carouselController != null
+            ? carouselController as CarouselSliderControllerImpl
+            : CarouselSliderController() as CarouselSliderControllerImpl;
 
   /// The on demand item builder constructor
   CarouselSlider.builder(
@@ -59,10 +56,11 @@ class CarouselSlider extends StatefulWidget {
       CarouselSliderController? carouselController,
       super.key})
       : items = null,
-        _carouselController = _createController(carouselController);
+        _carouselController = carouselController != null
+            ? carouselController as CarouselSliderControllerImpl
+            : CarouselSliderController() as CarouselSliderControllerImpl;
 
   @override
-  // ignore: no_logic_in_create_state
   CarouselSliderState createState() => CarouselSliderState(_carouselController);
 }
 
@@ -82,8 +80,8 @@ class CarouselSliderState extends State<CarouselSlider>
 
   CarouselSliderState(this.carouselController);
 
-  void changeMode(CarouselPageChangedReason newMode) {
-    mode = newMode;
+  void changeMode(CarouselPageChangedReason mode) {
+    mode = mode;
   }
 
   @override

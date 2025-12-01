@@ -1,10 +1,19 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_blogclub/carousel/carousel_slider.dart';
 import 'package:flutter_blogclub/data.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -68,7 +77,17 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomeScreen(),
+      home: Stack(
+        children: [
+          Positioned.fill(child: HomeScreen()),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: SafeArea(child: _ButtonNavigation()),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -109,6 +128,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 16),
               _CategoryList(),
               _PostList(),
+              SizedBox(height: 85),
             ],
           ),
         ),
@@ -199,7 +219,7 @@ class _Post extends StatelessWidget {
                   SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
                         CupertinoIcons.hand_thumbsup,
@@ -460,6 +480,113 @@ class _Story extends StatelessWidget {
         width: 54,
         height: 54,
       ),
+    );
+  }
+}
+
+class _ButtonNavigation extends StatelessWidget {
+  /*   final String buttonIconFileName;
+  final String buttonText; */
+
+  const _ButtonNavigation(
+    /*{super.key, required this.buttonIconFileName, required this.buttonText}*/
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 85,
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: Container(
+              height: 65,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 20,
+                    color: Color(0xff2D2D2D).withValues(alpha: 0.14),
+                  ),
+                  BoxShadow(
+                    blurRadius: 20,
+                    color: Color(0xff775E62).withValues(alpha: 0.3),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _ButtonNavigationItem(
+                    iconFileName: "Home.png",
+                    title: "Home",
+                    activeIconFileName: "",
+                  ),
+                  _ButtonNavigationItem(
+                    iconFileName: "Articles.png",
+                    title: "Article",
+                    activeIconFileName: "",
+                  ),
+                  SizedBox(width: 8),
+                  _ButtonNavigationItem(
+                    iconFileName: "Search.png",
+                    title: "Search",
+                    activeIconFileName: "",
+                  ),
+                  _ButtonNavigationItem(
+                    iconFileName: "Menu.png",
+                    title: "Menu",
+                    activeIconFileName: "",
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Container(
+              alignment: Alignment.topCenter,
+              width: 65,
+              height: 85,
+              child: Container(
+                height: 65,
+                decoration: BoxDecoration(
+                  color: Color(0xff376AED),
+                  borderRadius: BorderRadius.circular(32.5),
+                  border: Border.all(color: Colors.white, width: 4),
+                ),
+                child: Image.asset("assets/img/icons/plus.png"),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ButtonNavigationItem extends StatelessWidget {
+  final String iconFileName;
+  final String activeIconFileName;
+  final String title;
+
+  const _ButtonNavigationItem({
+    super.key,
+    required this.iconFileName,
+    required this.title,
+    required this.activeIconFileName,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset("assets/img/icons/$iconFileName", height: 20, width: 20),
+        SizedBox(height: 4),
+        Text(title, style: Theme.of(context).textTheme.bodySmall),
+      ],
     );
   }
 }

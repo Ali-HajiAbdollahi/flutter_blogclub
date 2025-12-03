@@ -30,11 +30,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  build_runner:
+  flutter_gen_runner:
+  smooth_page_indicator: ^1.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   dotted_border: ^2.1.0
+  flutter_svg: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +68,7 @@ flutter:
      - assets/img/posts/large/
      - assets/img/posts/small/
      - assets/img/stories/
+     - assets/img/background/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -95,3 +100,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  # pubspec.yaml
+# ...
+
+flutter_gen:
+  output: lib/gen/ # Optional (default: lib/gen/)
+  # line_length: 80 # Optional
+
+  # Optional
+  integrations:
+    image: true
+    flutter_svg: true

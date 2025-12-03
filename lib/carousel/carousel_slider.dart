@@ -61,6 +61,7 @@ class CarouselSlider extends StatefulWidget {
             : CarouselSliderController() as CarouselSliderControllerImpl;
 
   @override
+  // ignore: no_logic_in_create_state
   CarouselSliderState createState() => CarouselSliderState(_carouselController);
 }
 

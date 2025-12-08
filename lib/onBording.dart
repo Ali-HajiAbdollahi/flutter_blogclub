@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blogclub/auth.dart';
 import 'package:flutter_blogclub/data.dart';
 import 'package:flutter_blogclub/gen/assets.gen.dart';
-import 'package:flutter_blogclub/home.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBordingScreen extends StatefulWidget {
@@ -19,6 +19,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
 
   @override
   void initState() {
+    super.initState();
     _pageController.addListener(() {
       if (_pageController.page!.round() != page) {
         setState(() {
@@ -77,15 +78,21 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  items[index].title,
-                                  style: themeData.textTheme.headlineSmall,
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    items[index].title,
+                                    style: themeData.textTheme.headlineSmall,
+                                  ),
                                 ),
                                 SizedBox(height: 24),
-                                Text(
-                                  items[index].description,
-                                  style: themeData.textTheme.titleMedium!.apply(
-                                    fontSizeFactor: 0.8,
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    items[index].description,
+                                    style: themeData.textTheme.titleMedium!.apply(
+                                      fontSizeFactor: 0.8,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -120,14 +127,14 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return HomeScreen();
+                                        return AuthScreen();
                                       },
                                     ),
                                   );
                                 } else {
                                   _pageController.animateToPage(
                                     page + 1,
-                                    duration: Duration(microseconds: 500),
+                                    duration: Duration(milliseconds: 300),
                                     curve: Curves.decelerate,
                                   );
                                 }
@@ -140,7 +147,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   themeData.colorScheme.onPrimary,
                                 ),
                                 minimumSize: WidgetStateProperty.all(
-                                  Size(88, 60),
+                                  Size(88, 50),
                                 ),
                                 shape: WidgetStatePropertyAll(
                                   RoundedRectangleBorder(

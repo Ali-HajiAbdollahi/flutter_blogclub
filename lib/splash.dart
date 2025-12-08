@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blogclub/gen/assets.gen.dart';
-import 'package:flutter_blogclub/home.dart';
 import 'package:flutter_blogclub/onBording.dart';
 
 class SplashScreen extends StatefulWidget {

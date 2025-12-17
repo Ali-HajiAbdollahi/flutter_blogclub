@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blogclub/article.dart';
 import 'package:flutter_blogclub/gen/fonts.gen.dart';
 import 'package:flutter_blogclub/splash.dart';
 
@@ -27,6 +28,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: primaryColor
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: primaryTextColor,
+          titleSpacing: 32,
+          surfaceTintColor: Colors.white
+        ),
         colorScheme: ColorScheme.light(
           primary: primaryColor,
           onPrimary: Colors.white,
@@ -63,6 +73,12 @@ class MyApp extends StatelessWidget {
             fontSize: 14,
             fontWeight: FontWeight.w400,
           ),
+          headlineMedium: TextStyle(
+            fontFamily: FontFamily.avenir,
+            fontWeight: FontWeight.w700,
+            color: primaryTextColor,
+            fontSize: 24,
+          ),
           headlineLarge: TextStyle(
             fontFamily: FontFamily.avenir,
             fontWeight: FontWeight.bold,
@@ -93,7 +109,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
       ), */
-      home: const SplashScreen(),
+      home: const ArticleScreen(),
     );
   }
 }

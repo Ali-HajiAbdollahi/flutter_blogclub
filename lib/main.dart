@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blogclub/article.dart';
 import 'package:flutter_blogclub/gen/fonts.gen.dart';
+import 'package:flutter_blogclub/home.dart';
+import 'package:flutter_blogclub/profile.dart';
 import 'package:flutter_blogclub/splash.dart';
 
 void main() {
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
           onPrimary: Colors.white,
           surface: Color(0xffFBFCFF),
           onSurface: primaryTextColor,
-          surfaceContainer: Colors.white,
+          surfaceContainer: Color(0xffE6EAF1),
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
@@ -85,6 +87,12 @@ class MyApp extends StatelessWidget {
             color: primaryTextColor,
             fontSize: 24,
           ),
+          bodyLarge: TextStyle(
+            fontFamily: FontFamily.avenir,
+            color: primaryTextColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w700
+          ),
           bodyMedium: TextStyle(
             fontFamily: FontFamily.avenir,
             color: secondaryTextColor,
@@ -109,7 +117,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
       ), */
-      home: const ArticleScreen(),
+      home: const ProfileScreen(),
     );
   }
 }

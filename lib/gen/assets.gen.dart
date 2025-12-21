@@ -56,6 +56,10 @@ class $AssetsImgIconsGen {
   AssetGenImage get articles =>
       const AssetGenImage('assets/img/icons/Articles.png');
 
+  /// File path: assets/img/icons/ArticlesActive.svg
+  SvgGenImage get articlesActive =>
+      const SvgGenImage('assets/img/icons/ArticlesActive.svg');
+
   /// File path: assets/img/icons/Facebook.png
   AssetGenImage get facebook =>
       const AssetGenImage('assets/img/icons/Facebook.png');
@@ -67,8 +71,12 @@ class $AssetsImgIconsGen {
   /// File path: assets/img/icons/Grid.svg
   SvgGenImage get grid => const SvgGenImage('assets/img/icons/Grid.svg');
 
-  /// File path: assets/img/icons/Home.png
-  AssetGenImage get home => const AssetGenImage('assets/img/icons/Home.png');
+  /// File path: assets/img/icons/Home.svg
+  SvgGenImage get home => const SvgGenImage('assets/img/icons/Home.svg');
+
+  /// File path: assets/img/icons/HomeActive.png
+  AssetGenImage get homeActive =>
+      const AssetGenImage('assets/img/icons/HomeActive.png');
 
   /// File path: assets/img/icons/LOGO.svg
   SvgGenImage get logo => const SvgGenImage('assets/img/icons/LOGO.svg');
@@ -76,9 +84,17 @@ class $AssetsImgIconsGen {
   /// File path: assets/img/icons/Menu.png
   AssetGenImage get menu => const AssetGenImage('assets/img/icons/Menu.png');
 
+  /// File path: assets/img/icons/MenuActive.svg
+  SvgGenImage get menuActive =>
+      const SvgGenImage('assets/img/icons/MenuActive.svg');
+
   /// File path: assets/img/icons/Search.png
   AssetGenImage get search =>
       const AssetGenImage('assets/img/icons/Search.png');
+
+  /// File path: assets/img/icons/SearchActive.svg
+  SvgGenImage get searchActive =>
+      const SvgGenImage('assets/img/icons/SearchActive.svg');
 
   /// File path: assets/img/icons/Table.svg
   SvgGenImage get table => const SvgGenImage('assets/img/icons/Table.svg');
@@ -116,13 +132,17 @@ class $AssetsImgIconsGen {
   /// List of all assets
   List<dynamic> get values => [
     articles,
+    articlesActive,
     facebook,
     google,
     grid,
     home,
+    homeActive,
     logo,
     menu,
+    menuActive,
     search,
+    searchActive,
     table,
     thumbs,
     twitter,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blogclub/article.dart';
@@ -120,45 +122,105 @@ class MainScreen extends StatefulWidget {
 
 const int homeIndex = 0;
 const int articleIndex = 1;
-const int searchScreen = 2;
-const int menuScreen = 3;
+const int searchIndex = 2;
+const int menuIndex = 3;
 final double bottomNavigationHeight = 65;
 
 class _MainScreenState extends State<MainScreen> {
   int selectedScreenIndex = homeIndex;
+
+  List<int> mainNavigatorState = [0];
+
+  GlobalKey<NavigatorState> _homeKey = GlobalKey();
+  GlobalKey<NavigatorState> _articleKey = GlobalKey();
+  GlobalKey<NavigatorState> _searchKey = GlobalKey();
+  GlobalKey<NavigatorState> _menuKey = GlobalKey();
+
+  late final map = {
+    homeIndex: _homeKey,
+    articleIndex: _articleKey,
+    searchIndex: _searchKey,
+    menuIndex: _menuKey,
+  };
+
+  Future<bool> _onWillPop() async {
+    final NavigatorState currentSelectedTap =
+        map[selectedScreenIndex]!.currentState!;
+    if (currentSelectedTap.canPop()) {
+      currentSelectedTap.pop();
+      return false;
+    }
+    if (mainNavigatorState.isNotEmpty) {
+      setState(() {
+        mainNavigatorState.removeLast();
+        selectedScreenIndex = mainNavigatorState.last;
+      });
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            bottom: bottomNavigationHeight,
-            child: IndexedStack(
-              index: selectedScreenIndex,
-              children: [
-                const HomeScreen(),
-                const ArticleScreen(),
-                const SearchScreen(),
-                const ProfileScreen(),
-              ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, dynamic result) async {
+        if (didPop) return;
+        final shouldPop = await _onWillPop();
+        if (shouldPop && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              bottom: bottomNavigationHeight,
+              child: IndexedStack(
+                index: selectedScreenIndex,
+                children: [
+                  _navigator(_homeKey, homeIndex, HomeScreen()),
+                  _navigator(_articleKey, articleIndex, ArticleScreen()),
+                  _navigator(_searchKey, searchIndex, SimpleScreen()),
+                  _navigator(_menuKey, menuIndex, ProfileScreen()),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: _ButtonNavigation(
-              onTap: (int index) {
-                setState(() {
-                  selectedScreenIndex = index;
-                });
-              },
-              selectedScreenIndex: selectedScreenIndex,
+            Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: _ButtonNavigation(
+                onTap: (int index) {
+                  setState(() {
+                    selectedScreenIndex = index;
+                    mainNavigatorState.remove(index);
+                    mainNavigatorState.add(index);
+                  });
+                },
+                selectedScreenIndex: selectedScreenIndex,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _navigator(GlobalKey key, int index, Widget child) {
+    return key.currentState == null && selectedScreenIndex != index
+        ? Container()
+        : Navigator(
+          key: key,
+          onGenerateRoute:
+              (settings) => MaterialPageRoute(
+                builder:
+                    (context) => Offstage(
+                      offstage: selectedScreenIndex != index,
+                      child: child,
+                    ),
+              ),
+        );
   }
 }
 
@@ -232,7 +294,7 @@ class _ButtonNavigation extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          onTap(searchScreen);
+                          onTap(searchIndex);
                         },
                         child: _ButtonNavigationItem(
                           iconFileName:
@@ -246,7 +308,7 @@ class _ButtonNavigation extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          onTap(menuScreen);
+                          onTap(menuIndex);
                         },
                         child: _ButtonNavigationItem(
                           iconFileName:
@@ -305,17 +367,42 @@ class _ButtonNavigationItem extends StatelessWidget {
   }
 }
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
-
+class SimpleScreen extends StatelessWidget {
+  const SimpleScreen({super.key, this.screenNumber = 1});
+  final int screenNumber;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          "SearchScreen",
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              "Screen #$screenNumber",
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              foregroundColor: WidgetStatePropertyAll(
+                Theme.of(context).colorScheme.surface,
+              ),
+              backgroundColor: WidgetStatePropertyAll(
+                Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => SimpleScreen(screenNumber: screenNumber + 1),
+                ),
+              );
+            },
+            child: Text("Add screen"),
+          ),
+        ],
       ),
     );
   }

@@ -1,14 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_blogclub/data.dart';
 import 'package:flutter_blogclub/gen/assets.gen.dart';
-import 'package:flutter_blogclub/gen/fonts.gen.dart';
 import 'package:flutter_blogclub/home.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -17,23 +13,28 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: themeData.colorScheme.surfaceContainer,
       appBar: AppBar(
-        backgroundColor: themeData.colorScheme.surfaceContainer.withValues(alpha: 0),
-        title: Text("Profile", style: themeData.textTheme.headlineSmall,),
+        backgroundColor: themeData.colorScheme.surfaceContainer.withValues(
+          alpha: 0,
+        ),
+        title: Text("Profile", style: themeData.textTheme.headlineSmall),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz_rounded)),
-          SizedBox(width: 16),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.more_horiz_rounded),
+          ),
+          const SizedBox(width: 16),
         ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Stack(
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(32, 0, 32, 32),
+                    margin: const EdgeInsets.fromLTRB(32, 0, 32, 32),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: themeData.colorScheme.surface,
@@ -61,17 +62,17 @@ class ProfileScreen extends StatelessWidget {
                                   height: 84,
                                 ),
                               ),
-                              SizedBox(width: 16),
+                              const SizedBox(width: 16),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("@joviedan"),
+                                    const Text("@joviedan"),
                                     Text(
                                       "Jovi Daniel",
                                       style: themeData.textTheme.bodyLarge,
                                     ),
-                                    SizedBox(height: 4),
+                                    const SizedBox(height: 4),
                                     Text(
                                       "UX Designer",
                                       style: themeData.textTheme.bodyLarge!
@@ -86,12 +87,12 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 32),
+                          const SizedBox(height: 32),
                           Text(
                             "About me",
                             style: themeData.textTheme.headlineSmall,
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
                             "Madison Blackstone is a director of user experience design, with experience managing global teams.",
                             style: themeData.textTheme.bodyLarge!.copyWith(
@@ -116,7 +117,7 @@ class ProfileScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
-                                  offset: Offset(0, 24),
+                                  offset: const Offset(0, 24),
                                   blurRadius: 30,
                                   color: themeData.colorScheme.onSurface
                                       .withValues(alpha: 0.3),
@@ -137,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
                                 flex: 1,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Color(0xff2151CD),
+                                    color: const Color(0xff2151CD),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Column(
@@ -154,7 +155,7 @@ class ProfileScreen extends StatelessWidget {
                                               themeData.colorScheme.onPrimary,
                                         ),
                                       ),
-                                      SizedBox(height: 2),
+                                      const SizedBox(height: 2),
                                       Text(
                                         "Post",
                                         style: themeData.textTheme.bodyLarge!
@@ -183,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
                                         color: themeData.colorScheme.onPrimary,
                                       ),
                                     ),
-                                    SizedBox(height: 2),
+                                    const SizedBox(height: 2),
                                     Text(
                                       "Following",
                                       style: themeData.textTheme.bodyLarge!
@@ -210,7 +211,7 @@ class ProfileScreen extends StatelessWidget {
                                         color: themeData.colorScheme.onPrimary,
                                       ),
                                     ),
-                                    SizedBox(height: 2),
+                                    const SizedBox(height: 2),
                                     Text(
                                       "Follower",
                                       style: themeData.textTheme.bodyLarge!
@@ -231,12 +232,12 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 48),
+              const SizedBox(height: 48),
               Container(
                 width: MediaQuery.sizeOf(context).width,
                 decoration: BoxDecoration(
                   color: themeData.colorScheme.surface,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(32),
                     topRight: Radius.circular(32),
                   ),
@@ -264,10 +265,9 @@ class ProfileScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 16,),
-                    for(var i =0; i<posts.length;i++)
-                    Post(post: posts[i]),
-                    SizedBox(height: 16,)
+                    const SizedBox(height: 16),
+                    for (var i = 0; i < posts.length; i++) Post(post: posts[i]),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),

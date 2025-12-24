@@ -40,7 +40,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 32, 0, 32),
+                padding: const EdgeInsets.fromLTRB(0, 32, 0, 32),
                 child: Assets.img.background.onboarding.image(),
               ),
             ),
@@ -55,7 +55,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                       color: Colors.black.withValues(alpha: 0.1),
                     ),
                   ],
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(32),
                     topRight: Radius.circular(32),
                   ),
@@ -85,14 +85,13 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                     style: themeData.textTheme.headlineSmall,
                                   ),
                                 ),
-                                SizedBox(height: 24),
+                                const SizedBox(height: 24),
                                 Expanded(
                                   flex: 2,
                                   child: Text(
                                     items[index].description,
-                                    style: themeData.textTheme.titleMedium!.apply(
-                                      fontSizeFactor: 0.8,
-                                    ),
+                                    style: themeData.textTheme.titleMedium!
+                                        .apply(fontSizeFactor: 0.8),
                                   ),
                                 ),
                               ],
@@ -105,7 +104,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                       flex: 1,
                       child: Container(
                         height: 60,
-                        padding: EdgeInsets.only(left: 48, right: 48),
+                        padding: const EdgeInsets.only(left: 48, right: 48),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,14 +126,14 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return AuthScreen();
+                                        return const AuthScreen();
                                       },
                                     ),
                                   );
                                 } else {
                                   _pageController.animateToPage(
                                     page + 1,
-                                    duration: Duration(milliseconds: 300),
+                                    duration: const Duration(milliseconds: 300),
                                     curve: Curves.decelerate,
                                   );
                                 }
@@ -147,7 +146,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   themeData.colorScheme.onPrimary,
                                 ),
                                 minimumSize: WidgetStateProperty.all(
-                                  Size(88, 50),
+                                  const Size(88, 50),
                                 ),
                                 shape: WidgetStatePropertyAll(
                                   RoundedRectangleBorder(

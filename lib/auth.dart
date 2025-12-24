@@ -1,8 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_blogclub/data.dart';
 import 'package:flutter_blogclub/gen/assets.gen.dart';
 import 'package:flutter_blogclub/gen/fonts.gen.dart';
+import 'package:flutter_blogclub/main.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -17,8 +17,8 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final tapTextTheme = TextStyle(
-      color: themeData.colorScheme.onPrimary,
+    final tapTextTheme = const TextStyle(
+      color: Colors.white,
       fontWeight: FontWeight.w700,
       fontFamily: FontFamily.avenir,
       fontSize: 18,
@@ -36,7 +36,7 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   color: themeData.colorScheme.primary,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(32),
                     topRight: Radius.circular(32),
                   ),
@@ -92,7 +92,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: themeData.colorScheme.surface,
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(32),
                             topRight: Radius.circular(32),
                           ),
@@ -119,10 +119,53 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 }
 
-class _Login extends StatelessWidget {
-  const _Login({super.key, required this.themeData});
+class _Login extends StatefulWidget {
+  const _Login({required this.themeData});
 
   final ThemeData themeData;
+
+  @override
+  State<_Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<_Login> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _handleLogin() {
+    final username = _usernameController.text.trim().toUpperCase();
+    final password = _passwordController.text.trim();
+
+    // Get login credentials from database
+    final loginItems = AppDatabase.loginItems;
+
+    // Check if credentials match
+    final isValid = loginItems.any(
+      (login) => login.username == username && login.password == password,
+    );
+
+    if (isValid) {
+      // Navigate to home page
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen()));
+    } else {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Invalid username or password'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,73 +174,125 @@ class _Login extends StatelessWidget {
       children: [
         Text(
           "Welcome back",
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: FontFamily.avenir,
             fontWeight: FontWeight.w700,
             color: Colors.black,
             fontSize: 24,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           "sign in with your account",
-          style: themeData.textTheme.titleMedium!.apply(fontSizeFactor: 0.85),
+          style: widget.themeData.textTheme.titleMedium!.apply(
+            fontSizeFactor: 0.85,
+          ),
         ),
-        SizedBox(height: 16),
-        TextField(decoration: InputDecoration(label: Text("Username"))),
-
-        _PasswordTextField(),
-        SizedBox(height: 32),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: widget.themeData.colorScheme.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: widget.themeData.colorScheme.primary.withValues(
+                alpha: 0.3,
+              ),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                color: widget.themeData.colorScheme.primary,
+                size: 20,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Demo Credentials",
+                      style: TextStyle(
+                        fontFamily: FontFamily.avenir,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12,
+                        color: widget.themeData.colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      "Username: Ali  |  Password: 1234",
+                      style: TextStyle(
+                        fontFamily: FontFamily.avenir,
+                        fontSize: 11,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          controller: _usernameController,
+          decoration: const InputDecoration(label: Text("Username")),
+        ),
+        _PasswordTextField(controller: _passwordController),
+        const SizedBox(height: 32),
         ElevatedButton(
           style: ButtonStyle(
             minimumSize: WidgetStatePropertyAll(
               Size(MediaQuery.of(context).size.width, 60),
             ),
             backgroundColor: WidgetStatePropertyAll(
-              themeData.colorScheme.primary,
+              widget.themeData.colorScheme.primary,
             ),
-            foregroundColor: WidgetStatePropertyAll(Colors.white),
+            foregroundColor: const WidgetStatePropertyAll(Colors.white),
             shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             ),
           ),
-          onPressed: () {},
+          onPressed: _handleLogin,
           child: Text("login".toUpperCase()),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Forgot your password?"),
-            TextButton(onPressed: () {}, child: Text("Reset here")),
+            const Text("Forgot your password?"),
+            TextButton(onPressed: () {}, child: const Text("Reset here")),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Center(
           child: Text(
             "or sign in with".toUpperCase(),
-            style: TextStyle(letterSpacing: 2),
+            style: const TextStyle(letterSpacing: 2),
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Assets.img.icons.google.image(width: 36, height: 36),
-            SizedBox(width: 24),
+            const SizedBox(width: 24),
             Assets.img.icons.facebook.image(width: 36, height: 36),
-            SizedBox(width: 24),
+            const SizedBox(width: 24),
             Assets.img.icons.twitter.image(width: 36, height: 36),
           ],
         ),
-        
       ],
     );
   }
 }
 
 class _SignUp extends StatelessWidget {
-  const _SignUp({super.key, required this.themeData});
+  const _SignUp({required this.themeData});
 
   final ThemeData themeData;
 
@@ -208,24 +303,24 @@ class _SignUp extends StatelessWidget {
       children: [
         Text(
           "Welcome to Blog Club",
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: FontFamily.avenir,
             fontWeight: FontWeight.w700,
             color: Colors.black,
             fontSize: 24,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           "Please enter your information",
           style: themeData.textTheme.titleMedium!.apply(fontSizeFactor: 0.85),
         ),
-        SizedBox(height: 16),
-        TextField(decoration: InputDecoration(label: Text("Fullname"))),
-        TextField(decoration: InputDecoration(label: Text("Username"))),
+        const SizedBox(height: 16),
+        const TextField(decoration: InputDecoration(label: Text("Fullname"))),
+        const TextField(decoration: InputDecoration(label: Text("Username"))),
 
-        _PasswordTextField(),
-        SizedBox(height: 32),
+        const _PasswordTextField(),
+        const SizedBox(height: 32),
         ElevatedButton(
           style: ButtonStyle(
             minimumSize: WidgetStatePropertyAll(
@@ -234,7 +329,7 @@ class _SignUp extends StatelessWidget {
             backgroundColor: WidgetStatePropertyAll(
               themeData.colorScheme.primary,
             ),
-            foregroundColor: WidgetStatePropertyAll(Colors.white),
+            foregroundColor: const WidgetStatePropertyAll(Colors.white),
             shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             ),
@@ -242,21 +337,21 @@ class _SignUp extends StatelessWidget {
           onPressed: () {},
           child: Text("sign up".toUpperCase()),
         ),
-        SizedBox(height: 32),
+        const SizedBox(height: 32),
         Center(
           child: Text(
             "or sign up with".toUpperCase(),
-            style: TextStyle(letterSpacing: 2),
+            style: const TextStyle(letterSpacing: 2),
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Assets.img.icons.google.image(width: 36, height: 36),
-            SizedBox(width: 24),
+            const SizedBox(width: 24),
             Assets.img.icons.facebook.image(width: 36, height: 36),
-            SizedBox(width: 24),
+            const SizedBox(width: 24),
             Assets.img.icons.twitter.image(width: 36, height: 36),
           ],
         ),
@@ -266,7 +361,9 @@ class _SignUp extends StatelessWidget {
 }
 
 class _PasswordTextField extends StatefulWidget {
-  const _PasswordTextField({super.key});
+  const _PasswordTextField({this.controller});
+
+  final TextEditingController? controller;
 
   @override
   State<_PasswordTextField> createState() => _PasswordTextFieldState();
@@ -278,12 +375,13 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: widget.controller,
       obscureText: obscureText,
       enableSuggestions: false,
       autocorrect: false,
 
       decoration: InputDecoration(
-        label: Text("Password"),
+        label: const Text("Password"),
         suffix: InkWell(
           onTap: () {
             setState(() {
@@ -292,20 +390,8 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
           },
           child:
               obscureText
-                  ? Text(
-                    "Show",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  )
-                  : Text(
-                    "Hide",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
+                  ? const Text("Show", style: TextStyle(fontSize: 14))
+                  : const Text("Hide", style: TextStyle(fontSize: 14)),
         ),
       ),
     );

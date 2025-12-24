@@ -32,7 +32,7 @@ class ArticleScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Assets.img.icons.thumbs.svg(),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               Text(
                 "2.1k",
                 style: TextStyle(
@@ -49,19 +49,19 @@ class ArticleScreen extends StatelessWidget {
         child: Stack(
           children: [
             CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverAppBar(
-                  title: Text("Articles"),
+                  title: const Text("Articles"),
                   actions: [
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.more_horiz_rounded),
+                      icon: const Icon(Icons.more_horiz_rounded),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                   ],
                 ),
-            
+
                 SliverList(
                   delegate: SliverChildListDelegate.fixed([
                     Padding(
@@ -83,19 +83,18 @@ class ArticleScreen extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          SizedBox(width: 16),
+                          const SizedBox(width: 16),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Richard Gervain",
-                                  style: themeData.textTheme.bodyLarge!.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  style: themeData.textTheme.bodyLarge!
+                                      .copyWith(fontWeight: FontWeight.w400),
                                 ),
-                                SizedBox(height: 4),
-                                Text("2m ago"),
+                                const SizedBox(height: 4),
+                                const Text("2m ago"),
                               ],
                             ),
                           ),
@@ -107,27 +106,30 @@ class ArticleScreen extends StatelessWidget {
                               );
                             },
                             color: themeData.colorScheme.primary,
-                            icon: Icon(CupertinoIcons.bookmark),
+                            icon: const Icon(CupertinoIcons.bookmark),
                           ),
                           IconButton(
                             onPressed: () {
-                              snackBarMassage(context, "Share button is clicked");
+                              snackBarMassage(
+                                context,
+                                "Share button is clicked",
+                              );
                             },
                             color: themeData.colorScheme.primary,
-                            icon: Icon(CupertinoIcons.share),
+                            icon: const Icon(CupertinoIcons.share),
                           ),
                         ],
                       ),
                     ),
-            
+
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(32),
                         topRight: Radius.circular(32),
                       ),
                       child: Assets.img.background.singlePost.image(),
                     ),
-            
+
                     Padding(
                       padding: const EdgeInsets.fromLTRB(32, 32, 32, 16),
                       child: Text(
@@ -135,12 +137,14 @@ class ArticleScreen extends StatelessWidget {
                         style: themeData.textTheme.headlineSmall,
                       ),
                     ),
-            
+
                     Padding(
                       padding: const EdgeInsets.fromLTRB(32, 0, 32, 32),
                       child: Text(
                         "This one got an incredible amount of backlash the last time I said it, so I’m going to say it again: a man’s sexuality is never, ever your responsibility, under any circumstances. Whether it’s the fifth date or your twentieth year of marriage, the correct determining factor for whether or not you have sex with your partner isn’t whether you ought to “take care of him” or “put out” because it’s been a while or he’s really horny — the correct determining factor for whether or not you have sex is whether or not you want to have sex. This one got an incredible amount of backlash the last time I said it, so I’m going to say it again: a man’s sexuality is never, ever your responsibility, under any circumstances. Whether it’s the fifth date or your twentieth year of marriage, the correct determining factor for whether or not you have sex with your partner isn’t whether you ought to “take care of him” or “put out” because it’s been a while or he’s really horny — the correct determining factor for whether or not you have sex is whether or not you want to have sex. This one got an incredible amount of backlash the last time I said it, so I’m going to say it again: a man’s sexuality is never, ever your responsibility, under any circumstances. Whether it’s the fifth date or your twentieth year of marriage, the correct determining factor for whether or not you have sex with your partner isn’t whether you ought to “take care of him” or “put out” because it’s been a while or he’s really horny — the correct determining factor for whether or not you have sex is whether or not you want to have sex.",
-                        style: themeData.textTheme.bodyMedium!.copyWith(fontSize: 14),
+                        style: themeData.textTheme.bodyMedium!.copyWith(
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ]),
@@ -158,12 +162,13 @@ class ArticleScreen extends StatelessWidget {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                    themeData.colorScheme.surface,
-                    themeData.colorScheme.surface.withValues(alpha: 0)
-                  ]) 
+                      themeData.colorScheme.surface,
+                      themeData.colorScheme.surface.withValues(alpha: 0),
+                    ],
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

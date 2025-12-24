@@ -1,4 +1,3 @@
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -41,10 +40,10 @@ class HomeScreen extends StatelessWidget {
                 child: Text("Explore today’s", style: themeData.headlineLarge),
               ),
               _StoryList(stories: stories, themeData: themeData),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _CategoryList(),
               _PostList(),
-              SizedBox(height: 85),
+              const SizedBox(height: 85),
             ],
           ),
         ),
@@ -71,13 +70,16 @@ class _PostList extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {},
-                child: Text("More", style: TextStyle(color: Color(0xff376AED))),
+                child: const Text(
+                  "More",
+                  style: TextStyle(color: Color(0xff376AED)),
+                ),
               ),
             ],
           ),
         ),
         ListView.builder(
-          physics: ClampingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           itemCount: posts.length,
           itemExtent: 141,
           shrinkWrap: true,
@@ -100,20 +102,27 @@ class Post extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ArticleScreen()));
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (context) => ArticleScreen()));
       },
       child: Container(
-        margin: EdgeInsets.fromLTRB(32, 8, 32, 8),
+        margin: const EdgeInsets.fromLTRB(32, 8, 32, 8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(blurRadius: 10, color: Color(0x1a5282FF))],
+          boxShadow: const [
+            BoxShadow(blurRadius: 10, color: Color(0x1a5282FF)),
+          ],
         ),
         child: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.asset("assets/img/posts/small/${post.imageFileName}", width: 120,),
+              child: Image.asset(
+                "assets/img/posts/small/${post.imageFileName}",
+                width: 120,
+              ),
             ),
             Expanded(
               child: Padding(
@@ -124,45 +133,54 @@ class Post extends StatelessWidget {
                   children: [
                     Text(
                       post.caption,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: FontFamily.avenir,
                         fontWeight: FontWeight.w700,
                         color: Color(0xff376AED),
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       post.title,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          CupertinoIcons.hand_thumbsup,
-                          size: 16,
-                          color: Theme.of(context).textTheme.bodyMedium!.color,
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            CupertinoIcons.hand_thumbsup,
+                            size: 16,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium!.color,
+                          ),
                         ),
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         Text(
                           post.likes,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                        SizedBox(width: 16),
-                        Icon(
-                          CupertinoIcons.clock,
-                          size: 16,
-                          color: Theme.of(context).textTheme.bodyMedium!.color,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            CupertinoIcons.clock,
+                            size: 16,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium!.color,
+                          ),
                         ),
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         Text(
                           post.time,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Expanded(
+                          flex: 5,
                           child: Container(
                             alignment: Alignment.centerRight,
                             child:
@@ -217,7 +235,7 @@ class _CategoryList extends StatelessWidget {
         aspectRatio: 1.2,
         disableCenter: true,
         initialPage: 0,
-        scrollPhysics: BouncingScrollPhysics(),
+        scrollPhysics: const BouncingScrollPhysics(),
         viewportFraction: 0.8,
         enableInfiniteScroll: false,
         enlargeCenterPage: true,
@@ -250,7 +268,7 @@ class _CategoryItem extends StatelessWidget {
             left: 65,
             right: 65,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 boxShadow: [
                   BoxShadow(blurRadius: 20, color: Color(0xff0D253C)),
                 ],
@@ -259,10 +277,10 @@ class _CategoryItem extends StatelessWidget {
           ),
           Positioned.fill(
             child: Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
               foregroundDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32),
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.center,
                   colors: [Color(0xff0D253C), Colors.transparent],
@@ -305,13 +323,13 @@ class _StoryList extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 92,
       child: ListView.builder(
-        padding: EdgeInsets.fromLTRB(32, 2, 32, 0),
+        padding: const EdgeInsets.fromLTRB(32, 2, 32, 0),
         scrollDirection: Axis.horizontal,
         itemCount: stories.length,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           final story = stories[index];
-          return (_Story(story: story, themeData: themeData));
+          return _Story(story: story, themeData: themeData);
         },
       ),
     );
@@ -344,7 +362,7 @@ class _Story extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(story.name, style: themeData.bodyMedium),
       ],
     );
@@ -352,7 +370,7 @@ class _Story extends StatelessWidget {
 
   Container _unViewedStory() {
     return Container(
-      margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
+      margin: const EdgeInsets.fromLTRB(4, 0, 4, 0),
       width: 68,
       height: 68,
       decoration: BoxDecoration(
@@ -360,12 +378,16 @@ class _Story extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [Color(0xff376AED), Color(0xff49B0E2), Color(0xff9CECFB)],
+          colors: const [
+            Color(0xff376AED),
+            Color(0xff49B0E2),
+            Color(0xff9CECFB),
+          ],
         ),
       ),
       child: Container(
-        padding: EdgeInsets.all(5),
-        margin: EdgeInsets.all(2),
+        padding: const EdgeInsets.all(5),
+        margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(22),
@@ -377,17 +399,17 @@ class _Story extends StatelessWidget {
 
   Widget _viewedStory() {
     return Container(
-      padding: EdgeInsets.all(1),
-      margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
+      padding: const EdgeInsets.all(1),
+      margin: const EdgeInsets.fromLTRB(4, 0, 4, 0),
       width: 68,
       height: 68,
       child: DottedBorder(
         strokeWidth: 2,
-        radius: Radius.circular(24),
+        radius: const Radius.circular(24),
         borderType: BorderType.RRect,
-        color: Color(0xff7B8BB2),
-        dashPattern: [8, 3],
-        padding: EdgeInsets.all(7),
+        color: const Color(0xff7B8BB2),
+        dashPattern: const [8, 3],
+        padding: const EdgeInsets.all(7),
         child: _storyProfileImage(),
       ),
     );

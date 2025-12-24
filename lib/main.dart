@@ -1,18 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blogclub/article.dart';
-import 'package:flutter_blogclub/gen/assets.gen.dart';
 import 'package:flutter_blogclub/gen/fonts.gen.dart';
 import 'package:flutter_blogclub/home.dart';
 import 'package:flutter_blogclub/profile.dart';
 import 'package:flutter_blogclub/splash.dart';
-import 'package:flutter_svg/svg.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
+    const SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       statusBarBrightness: Brightness.dark,
       systemNavigationBarColor: Colors.white,
@@ -34,14 +30,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        snackBarTheme: SnackBarThemeData(backgroundColor: primaryColor),
-        appBarTheme: AppBarTheme(
+        snackBarTheme: const SnackBarThemeData(backgroundColor: primaryColor),
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: primaryTextColor,
           titleSpacing: 32,
           surfaceTintColor: Colors.white,
         ),
-        colorScheme: ColorScheme.light(
+        colorScheme: const ColorScheme.light(
           primary: primaryColor,
           onPrimary: Colors.white,
           surface: Color(0xffFBFCFF),
@@ -59,7 +55,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           titleMedium: TextStyle(
             fontFamily: FontFamily.avenir,
             color: secondaryTextColor,
@@ -108,7 +104,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -131,10 +127,10 @@ class _MainScreenState extends State<MainScreen> {
 
   List<int> mainNavigatorState = [0];
 
-  GlobalKey<NavigatorState> _homeKey = GlobalKey();
-  GlobalKey<NavigatorState> _articleKey = GlobalKey();
-  GlobalKey<NavigatorState> _searchKey = GlobalKey();
-  GlobalKey<NavigatorState> _menuKey = GlobalKey();
+  final GlobalKey<NavigatorState> _homeKey = GlobalKey();
+  final GlobalKey<NavigatorState> _articleKey = GlobalKey();
+  final GlobalKey<NavigatorState> _searchKey = GlobalKey();
+  final GlobalKey<NavigatorState> _menuKey = GlobalKey();
 
   late final map = {
     homeIndex: _homeKey,
@@ -228,7 +224,6 @@ class _ButtonNavigation extends StatelessWidget {
   final Function(int index) onTap;
   final int selectedScreenIndex;
   const _ButtonNavigation({
-    super.key,
     required this.onTap,
     required this.selectedScreenIndex,
   });
@@ -331,7 +326,7 @@ class _ButtonNavigation extends StatelessWidget {
                 child: Container(
                   height: 65,
                   decoration: BoxDecoration(
-                    color: Color(0xff376AED),
+                    color: const Color(0xff376AED),
                     borderRadius: BorderRadius.circular(32.5),
                     border: Border.all(color: Colors.white, width: 4),
                   ),
@@ -360,7 +355,7 @@ class _ButtonNavigationItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset("assets/img/icons/$iconFileName", height: 24, width: 24),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(title, style: Theme.of(context).textTheme.bodySmall),
       ],
     );

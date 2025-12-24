@@ -50,6 +50,29 @@ As my second Flutter project, this app helped me learn and implement:
   <img src="screenshots/profile.png" width="250" alt="Profile Screen"/>
 </p>
 
+## 📥 Ready to Use APK
+
+Download the latest release and install directly on your Android device:
+
+<p align="center">
+  <a href="https://github.com/Ali-HajiAbdollahi/flutter_blogclub/releases/latest">
+    <img src="https://img.shields.io/badge/Download-APK-brightgreen?style=for-the-badge&logo=android" alt="Download APK"/>
+  </a>
+</p>
+
+**Latest Version:** v1.0.0  
+**File Size:** ~23MB  
+**Compatibility:** Android 5.0+ (API level 21+)
+
+### Installation Steps:
+1. Download the APK file from the releases page
+2. Enable "Install from Unknown Sources" in your Android settings
+3. Open the downloaded APK file
+4. Follow the installation prompts
+5. Launch the app and enjoy! 🎉
+
+> **Note:** You may need to allow installation from unknown sources in your device settings for the first time.
+
 ## 🛠️ Technologies & Packages
 
 - **Flutter SDK** - Cross-platform mobile development framework
